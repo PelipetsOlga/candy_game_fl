@@ -1,0 +1,20 @@
+import 'package:flutter/material.dart';
+import 'ui/main/theme_data.dart';
+import 'ui/home/home_screen.dart';
+
+void main() {
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Sweet Billions',
+      theme: candiesThemeData(),
+      home: SweetBillionsScreen(),
+    );
+  }
+}
