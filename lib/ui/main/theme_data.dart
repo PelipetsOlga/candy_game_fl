@@ -8,6 +8,7 @@ ThemeData candiesThemeData() {
     primaryColorLight: const Color(0xFFFFB3A7), // Light coral for highlights
     primaryColorDark: const Color(0xFFD75A4A), // Darker orange for depth
     scaffoldBackgroundColor: const Color(0xFFFFF3E0), // Creamy off-white background
+    // highlightColor:  const Color(0xFF80DEEA),
 
     // Accent color (secondary)
     colorScheme: ColorScheme.fromSwatch(
@@ -22,7 +23,7 @@ ThemeData candiesThemeData() {
     // Typography
     textTheme: TextTheme(
       displayLarge: GoogleFonts.bubblegumSans(
-        fontSize: 36,
+        fontSize: 48,
         fontWeight: FontWeight.bold,
         color: const Color(0xFFD75A4A), // Dark orange for headings
       ),
@@ -59,7 +60,7 @@ ThemeData candiesThemeData() {
         ),
         elevation: 5, // Slight shadow for depth
         textStyle: GoogleFonts.bubblegumSans(
-          fontSize: 16,
+          fontSize: 32,
           fontWeight: FontWeight.bold,
         ),
       ),

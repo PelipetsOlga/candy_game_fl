@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
-import 'ui/main/theme_data.dart';
+
+import 'di/di.dart';
 import 'ui/home/home_screen.dart';
+import 'ui/main/theme_data.dart';
 
 void main() {
-  runApp(const MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  initDI().then((_) {
+    runApp(const MyApp());
+  });
 }
 
 class MyApp extends StatelessWidget {
@@ -14,7 +19,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Sweet Billions',
       theme: candiesThemeData(),
-      home: SweetBillionsScreen(),
+      home: HomeScreen(),
     );
   }
 }
