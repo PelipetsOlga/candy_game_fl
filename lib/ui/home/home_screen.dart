@@ -7,7 +7,7 @@ class SweetBillionsScreen extends StatelessWidget {
       body: Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('assets/background_castle.jpg'),
+            image: AssetImage('assets/images/background_castle.jpg'),
             fit: BoxFit.cover,
           ),
         ),
