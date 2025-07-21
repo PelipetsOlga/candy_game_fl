@@ -1,5 +1,5 @@
+import 'package:candy_game/ui/feature/settings/settings.dart';
 import 'package:flutter/material.dart';
-import '../settings/settings.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -10,7 +10,7 @@ class HomeScreen extends StatelessWidget {
       body: Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('assets/images/background_castle.jpg'),
+            image: AssetImage('assets/images/backgrounds/background_castle.jpg'),
             fit: BoxFit.cover,
           ),
         ),

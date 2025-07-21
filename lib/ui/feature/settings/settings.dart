@@ -1,7 +1,7 @@
+import 'package:candy_game/di/di.dart';
+import 'package:candy_game/domain/repository.dart';
 import 'package:flutter/material.dart';
 
-import '../../core/di/dependency_injection.dart';
-import '../../domain/repository.dart';
 
 class SettingsScreen extends StatefulWidget {
   @override

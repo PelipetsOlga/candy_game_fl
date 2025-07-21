@@ -1,7 +1,7 @@
+import 'package:candy_game/ui/feature/home/home_screen.dart';
 import 'package:flutter/material.dart';
 
 import 'di/di.dart';
-import 'ui/home/home_screen.dart';
 import 'ui/main/theme_data.dart';
 
 void main() {
