@@ -1,67 +1,24 @@
 import 'dart:math';
 
-import 'package:candy_game/domain/repository.dart';
+import 'package:candy_game/domain/models/models.dart';
 import 'package:flutter/material.dart';
 
-import '../core/di/dependency_injection.dart';
-
-enum PieceType { A, B, C, D, E, F, G, H }
-
-class PieceCalculation {
-  final int count;
-  final double multiplier;
-
-  PieceCalculation({required this.count, required this.multiplier});
-}
-
-class Piece {
-  final PieceType type;
-  final String assetTitle;
-  final List<PieceCalculation> calculations;
-
-  Piece({
-    required this.type,
-    required this.assetTitle,
-    required this.calculations,
-  });
-}
-
 class GameController extends ChangeNotifier {
-  late List<List<PieceType?>> board; // Nullable for empty cells after collapse
-  int rows;
-  int columns;
+  late List<List<PieceType?>> board;
+  int rows = 5;
+  int columns = 6;
   int bank = 200;
   int bet = 10;
   bool isGameOver = false;
-  final List<Piece> pieces; // List of 8 Piece instances
+  final List<Piece> pieces = defaultPieces;
   final Random _random = Random();
 
-  GameController({
-    this.rows = 5,
-    this.columns = 6,
-    required this.pieces,
-  }) {
-    // if (pieces.length != 8) {
-    //   throw ArgumentError('Exactly 8 pieces must be provided.');
-    // }
-    board = List.generate(rows, (_) => List.filled(columns, null));
-    loadBet(); // Load saved bet on initialization
-  }
+  int getRows() => rows;
 
-  // Load bet from SharedPreferences
-  Future<void> loadBet() async {
-    bet = await getIt.get<GameRepository>().getBet();
-    notifyListeners();
-  }
+  int getColumns() => columns;
 
-  // Save bet to SharedPreferences
-  Future<void> saveBet(int newBet) async {
-    bet = newBet;
-    await getIt.get<GameRepository>().setBet(newBet);
-    notifyListeners();
-  }
+  int getCapacity() => rows * columns;
 
-// Start a new round by refreshing the board
   void refreshBoard() {
     if (bank < bet) {
       isGameOver = true;

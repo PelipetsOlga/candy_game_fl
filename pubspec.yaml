@@ -37,6 +37,7 @@ dependencies:
   google_fonts: ^6.2.1
   get_it: ^8.0.3
   shared_preferences: ^2.5.3
+  flame: ^1.23.0
 
 dev_dependencies:
   flutter_test:
@@ -62,7 +63,8 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - assets/images/
+    - assets/images/backgrounds/
+    - assets/images/pieces/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

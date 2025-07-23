@@ -1,4 +1,5 @@
 import 'package:candy_game/ui/feature/settings/settings.dart';
+import 'package:candy_game/ui/feature/game/game_widget.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -16,36 +17,61 @@ class HomeScreen extends StatelessWidget {
         ),
         child: Stack(
           children: [
-            Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'SWEET BILLIONS',
-                    style: Theme.of(context).textTheme.displayLarge,
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(height: 50),
-                  ElevatedButton(
-                    onPressed: () {},
-                    child: Text('PLAY'),
-                  ),
-                  const SizedBox(height: 20),
-                  ElevatedButton(
-                    onPressed: () {},
-                    child: Text('FORTUNE WHEEL'),
-                  ),
-                  const SizedBox(height: 20),
-                  ElevatedButton(
-                    onPressed: () {},
-                    child: Text('SHOP'),
-                  ),
-                ],
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'SWEET BILLIONS',
+                      style: Theme.of(context).textTheme.displayLarge?.copyWith(
+                        shadows: [
+                          const Shadow(
+                            offset: Offset(2, 2),
+                            blurRadius: 4,
+                            color: Colors.white,
+                          ),
+                          const Shadow(
+                            offset: Offset(-2, -2),
+                            blurRadius: 4,
+                            color: Colors.white,
+                          ),
+                        ],
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 50),
+                    ElevatedButton(
+                      onPressed: () => _navigateToGame(context),
+                      child: const Text(
+                        'PLAY',
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    ElevatedButton(
+                      onPressed: () {},
+                      child: const Text(
+                        'FORTUNE WHEEL',
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    ElevatedButton(
+                      onPressed: () {},
+                      child: const Text(
+                        'SHOP',
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
             Positioned(
               left: 24,
-              bottom: 36,
+              bottom: 72,
               child: IconButton(
                 onPressed: () => _showSettingsDialog(context),
                 icon: const Icon(
@@ -78,4 +104,14 @@ class HomeScreen extends StatelessWidget {
       },
     );
   }
+
+  void _navigateToGame(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const CandyGameWidget(),
+      ),
+    );
+  }
 }
+

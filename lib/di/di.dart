@@ -1,3 +1,4 @@
+import 'package:candy_game/domain/game_controller.dart';
 import 'package:candy_game/domain/repository_impl.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -13,5 +14,8 @@ Future<bool> initDI() async {
   
   // Register GameRepository with SharedPreferences
   getIt.registerLazySingleton<GameRepository>(() => GameRepositoryImpl(sharedPreferences));
+
+  final gameController = GameController();
+  getIt.registerSingleton<GameController>(gameController);
   return true;
 }

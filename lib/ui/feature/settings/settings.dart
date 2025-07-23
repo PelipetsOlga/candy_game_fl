@@ -52,12 +52,17 @@ class _SettingsScreenState extends State<SettingsScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                'SETTINGS',
-                style: Theme.of(context)
-                    .textTheme
-                    .displayLarge
-                    ?.copyWith(color: Colors.white),
+              Expanded(
+                child: Text(
+                  'SETTINGS',
+                  style: Theme.of(context)
+                      .textTheme
+                      .displayLarge
+                      ?.copyWith(color: Colors.white),
+                  overflow: TextOverflow.visible,
+                  softWrap: true,
+                  maxLines: 2,
+                ),
               ),
             ],
           ),
@@ -83,7 +88,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 style: Theme.of(context)
                     .textTheme
                     .bodyLarge
-                    ?.copyWith(color: const Color(0xFF80DEEA))),
+                    ?.copyWith(color: Theme.of(context).colorScheme.secondary)),
             onTap: () {},
           ),
           ListTile(
@@ -91,7 +96,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 style: Theme.of(context)
                     .textTheme
                     .bodyLarge
-                    ?.copyWith(color: const Color(0xFF80DEEA))),
+                    ?.copyWith(color: Theme.of(context).colorScheme.secondary)),
             onTap: () {},
           ),
         ],
