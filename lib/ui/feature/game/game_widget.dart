@@ -1,10 +1,52 @@
 import 'package:candy_game/ui/feature/game/game.dart';
 import 'package:candy_game/ui/feature/game/game_board.dart';
+import 'package:candy_game/ui/feature/game/bets_dialog.dart';
+import 'package:candy_game/di/di.dart';
+import 'package:candy_game/domain/repository.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 
-class CandyGameWidget extends StatelessWidget {
+class CandyGameWidget extends StatefulWidget {
   const CandyGameWidget({super.key});
+
+  @override
+  _CandyGameWidgetState createState() => _CandyGameWidgetState();
+}
+
+class _CandyGameWidgetState extends State<CandyGameWidget> {
+  double _credit = 1000;
+  int _bet = 100;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadGameData();
+  }
+
+  Future<void> _loadGameData() async {
+    final repository = getIt.get<GameRepository>();
+    final credit = await repository.getCount();
+    final bet = await repository.getBet();
+    setState(() {
+      _credit = credit;
+      _bet = bet;
+    });
+  }
+
+  void _showBetsDialog(BuildContext context) async {
+    await showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return Dialog(
+          backgroundColor: Colors.transparent,
+          child: BetsDialog(),
+        );
+      },
+    );
+    // Reload data after dialog closes to get updated bet value
+    _loadGameData();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +87,9 @@ class CandyGameWidget extends StatelessWidget {
                         children: [
                           ElevatedButton(
                               onPressed: () {}, child: Text('Refresh')),
-                          ElevatedButton(onPressed: () {}, child: Text('Bets')),
+                          ElevatedButton(
+                              onPressed: () => _showBetsDialog(context), 
+                              child: Text('Bets')),
                         ],
                       ),
                       Row(
@@ -65,7 +109,7 @@ class CandyGameWidget extends StatelessWidget {
                               maximumSize: const Size(48, 48),
                             ),
                           ),
-                          Text('Credit: 1000, Bet 100'),
+                          Text('Credit: ${_credit.toStringAsFixed(0)}, Bet $_bet'),
                           IconButton(
                             onPressed: () {},
                             icon: const Icon(
