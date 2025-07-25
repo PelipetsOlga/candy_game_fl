@@ -1,9 +1,8 @@
-import 'package:candy_game/ui/feature/game/game.dart';
-import 'package:candy_game/ui/feature/game/game_board.dart';
-import 'package:candy_game/ui/feature/game/bets_dialog.dart';
 import 'package:candy_game/di/di.dart';
 import 'package:candy_game/domain/repository.dart';
-import 'package:flame/game.dart';
+import 'package:candy_game/ui/feature/game/bets_dialog.dart';
+import 'package:candy_game/ui/feature/game/game_board.dart';
+import 'package:candy_game/ui/feature/game/info_dialog.dart';
 import 'package:flutter/material.dart';
 
 class CandyGameWidget extends StatefulWidget {
@@ -46,6 +45,19 @@ class _CandyGameWidgetState extends State<CandyGameWidget> {
     );
     // Reload data after dialog closes to get updated bet value
     _loadGameData();
+  }
+
+  void _showInfoDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return Dialog(
+          backgroundColor: Colors.transparent,
+          child: InfoDialog(),
+        );
+      },
+    );
   }
 
   @override
@@ -109,9 +121,10 @@ class _CandyGameWidgetState extends State<CandyGameWidget> {
                               maximumSize: const Size(48, 48),
                             ),
                           ),
-                          Text('Credit: ${_credit.toStringAsFixed(0)}, Bet $_bet'),
+                          Text(
+                              'Credit: ${_credit.toStringAsFixed(0)}, Bet $_bet'),
                           IconButton(
-                            onPressed: () {},
+                            onPressed: () => _showInfoDialog(context),
                             icon: const Icon(
                               Icons.info_outline,
                               color: Colors.white,
