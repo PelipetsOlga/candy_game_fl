@@ -1,8 +1,9 @@
 import 'package:candy_game/di/di.dart';
 import 'package:candy_game/domain/repository.dart';
-import 'package:candy_game/ui/feature/game/bets_dialog.dart';
+import 'package:candy_game/ui/feature/bets/bets_dialog.dart';
 import 'package:candy_game/ui/feature/game/game_board.dart';
-import 'package:candy_game/ui/feature/game/info_dialog.dart';
+import 'package:candy_game/ui/feature/info/info_dialog.dart';
+import 'package:candy_game/ui/main/constants.dart';
 import 'package:flutter/material.dart';
 
 class CandyGameWidget extends StatefulWidget {
@@ -15,6 +16,7 @@ class CandyGameWidget extends StatefulWidget {
 class _CandyGameWidgetState extends State<CandyGameWidget> {
   double _credit = 1000;
   int _bet = 100;
+  String _background = defaultBackgrounds.first.assetTitle;
 
   @override
   void initState() {
@@ -24,11 +26,13 @@ class _CandyGameWidgetState extends State<CandyGameWidget> {
 
   Future<void> _loadGameData() async {
     final repository = getIt.get<GameRepository>();
-    final credit = await repository.getCount();
+    final credit = await repository.getScore();
     final bet = await repository.getBet();
+    final background = await repository.getCurrentBackground();
     setState(() {
       _credit = credit;
       _bet = bet;
+      _background = background;
     });
   }
 
@@ -67,10 +71,9 @@ class _CandyGameWidgetState extends State<CandyGameWidget> {
 
     return Scaffold(
       body: Container(
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           image: DecorationImage(
-            image:
-                AssetImage('assets/images/backgrounds/background_castle.jpg'),
+            image: AssetImage(_background),
             fit: BoxFit.cover,
           ),
         ),

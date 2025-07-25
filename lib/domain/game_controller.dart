@@ -1,6 +1,8 @@
 import 'dart:math';
 
+import 'package:candy_game/domain/models/backgrounds.dart';
 import 'package:candy_game/domain/models/models.dart';
+import 'package:candy_game/ui/main/constants.dart';
 import 'package:flutter/material.dart';
 
 class GameController extends ChangeNotifier {
@@ -11,6 +13,7 @@ class GameController extends ChangeNotifier {
   int bet = 10;
   bool isGameOver = false;
   final List<Piece> pieces = defaultPieces;
+  final List<Background> backgrounds = defaultBackgrounds;
   final Random _random = Random();
 
   int getRows() => rows;

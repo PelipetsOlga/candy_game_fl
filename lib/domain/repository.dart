@@ -7,11 +7,21 @@ abstract interface class GameRepository {
 
   Future<void> setSoundFx(bool value);
 
-  Future<double> getCount();
+  Future<double> getScore();
 
-  Future<void> setCount(double value);
+  Future<void> setScore(double value);
+
+  Future<void> appendScore(double value);
 
   Future<int> getBet();
 
   Future<void> setBet(int value);
+
+  Future<List<String>> getBackgrounds();
+
+  Future<void> setBackgrounds(List<String> backgrounds);
+
+  Future<String> getCurrentBackground();
+
+  Future<void> setCurrentBackground(String background);
 }
