@@ -3,6 +3,7 @@ import 'package:candy_game/domain/repository.dart';
 import 'package:candy_game/ui/feature/bets/bets_dialog.dart';
 import 'package:candy_game/ui/feature/game/game_board.dart';
 import 'package:candy_game/ui/feature/info/info_dialog.dart';
+import 'package:candy_game/ui/feature/settings/settings.dart';
 import 'package:candy_game/ui/main/constants.dart';
 import 'package:flutter/material.dart';
 
@@ -64,6 +65,19 @@ class _CandyGameWidgetState extends State<CandyGameWidget> {
     );
   }
 
+  void _showSettingsDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return Dialog(
+          backgroundColor: Colors.transparent,
+          child: SettingsScreen(),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
@@ -112,7 +126,7 @@ class _CandyGameWidgetState extends State<CandyGameWidget> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           IconButton(
-                            onPressed: () {},
+                            onPressed: () => _showSettingsDialog(context),
                             icon: const Icon(
                               Icons.settings,
                               color: Colors.white,

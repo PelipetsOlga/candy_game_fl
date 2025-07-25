@@ -114,7 +114,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               ?.copyWith(color: Colors.white)),
       value: value,
       onChanged: onChanged,
-      activeColor: Theme.of(context).highlightColor,
+      activeColor: Theme.of(context).colorScheme.primary,
       inactiveThumbColor: Colors.grey,
       inactiveTrackColor: Colors.grey[700],
     );
