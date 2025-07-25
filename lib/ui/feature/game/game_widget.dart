@@ -14,15 +14,29 @@ class CandyGameWidget extends StatefulWidget {
   _CandyGameWidgetState createState() => _CandyGameWidgetState();
 }
 
-class _CandyGameWidgetState extends State<CandyGameWidget> {
+class _CandyGameWidgetState extends State<CandyGameWidget>
+    with TickerProviderStateMixin {
   double _credit = 1000;
   int _bet = 100;
   String _background = defaultBackgrounds.first.assetTitle;
+  late AnimationController _refreshAnimationController;
+  bool _isRefreshing = false;
+  bool _isPressed = false;
 
   @override
   void initState() {
     super.initState();
     _loadGameData();
+    _refreshAnimationController = AnimationController(
+      duration: const Duration(milliseconds: 500),
+      vsync: this,
+    );
+  }
+
+  @override
+  void dispose() {
+    _refreshAnimationController.dispose();
+    super.dispose();
   }
 
   Future<void> _loadGameData() async {
@@ -35,6 +49,35 @@ class _CandyGameWidgetState extends State<CandyGameWidget> {
       _bet = bet;
       _background = background;
     });
+  }
+
+  void _handleRefreshTap() async {
+    setState(() {
+      _isPressed = false;
+    });
+
+    if (_isRefreshing) return;
+
+    setState(() {
+      _isRefreshing = true;
+    });
+
+    // Start spinning animation
+    _refreshAnimationController.repeat();
+
+    // Simulate refresh operation
+    await Future.delayed(const Duration(milliseconds: 500));
+
+    // Stop animation
+    _refreshAnimationController.stop();
+    _refreshAnimationController.reset();
+
+    setState(() {
+      _isRefreshing = false;
+    });
+
+    // Reload game data
+    await _loadGameData();
   }
 
   void _showBetsDialog(BuildContext context) async {
@@ -78,6 +121,49 @@ class _CandyGameWidgetState extends State<CandyGameWidget> {
     );
   }
 
+  Widget _refreshButton(BuildContext context) {
+    return GestureDetector(
+      onTapDown: (_) {
+        setState(() {
+          _isPressed = true;
+        });
+      },
+      onTapUp: (_) => _handleRefreshTap(),
+      onTapCancel: () {
+        setState(() {
+          _isPressed = false;
+        });
+      },
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 50),
+        width: 80,
+        height: 80,
+        transform: Matrix4.identity()..scale(_isPressed ? 0.9 : 1.0),
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: Theme.of(context).colorScheme.primary,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(_isPressed ? 0.6 : 0.4),
+              blurRadius: _isPressed ? 8 : 4,
+              offset: Offset(0, _isPressed ? 2 : 1),
+            ),
+          ],
+        ),
+        child: Center(
+          child: RotationTransition(
+            turns: _refreshAnimationController,
+            child: const Icon(
+              Icons.refresh,
+              color: Colors.white,
+              size: 64,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
@@ -107,20 +193,30 @@ class _CandyGameWidgetState extends State<CandyGameWidget> {
                       const EdgeInsets.symmetric(vertical: 48, horizontal: 16),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.end,
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Text('Place your bets', textAlign: TextAlign.center),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          ElevatedButton(
-                              onPressed: () {}, child: Text('Refresh')),
-                          ElevatedButton(
-                              onPressed: () => _showBetsDialog(context), 
-                              child: Text('Bets')),
-                        ],
+                      Text(
+                        'Place your bets',
+                        textAlign: TextAlign.center,
+                        style:
+                            Theme.of(context).textTheme.displayMedium?.copyWith(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold,
+                                ),
                       ),
+                      SizedBox(height: 16),
+                      _refreshButton(context),
+                      SizedBox(height: 16),
+                      Text(
+                        'Credit: ${_credit.toStringAsFixed(0)}',
+                        style:
+                            Theme.of(context).textTheme.displayMedium?.copyWith(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                        textAlign: TextAlign.center,
+                      ),
+                      SizedBox(height: 16),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -138,8 +234,9 @@ class _CandyGameWidgetState extends State<CandyGameWidget> {
                               maximumSize: const Size(48, 48),
                             ),
                           ),
-                          Text(
-                              'Credit: ${_credit.toStringAsFixed(0)}, Bet $_bet'),
+                          ElevatedButton(
+                              onPressed: () => _showBetsDialog(context),
+                              child: Text('Bet $_bet')),
                           IconButton(
                             onPressed: () => _showInfoDialog(context),
                             icon: const Icon(
@@ -154,7 +251,8 @@ class _CandyGameWidgetState extends State<CandyGameWidget> {
                             ),
                           ),
                         ],
-                      )
+                      ),
+                      SizedBox(height: 8),
                     ],
                   ),
                 ),
